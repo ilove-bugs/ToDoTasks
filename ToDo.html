@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ToDoApp</title>
+<!-- completed this on 10/3, it took a lot of time, i did everything myself, with little help.  -->
+    <style>
+      hr {
+        border-top: 1px solid grey; /* thickness + color */
+        width: 80%;
+      }
+      #task-list li {
+        display: flex;
+        flex-direction: row;
+        gap: 15px;
+        border: 1px solid grey;
+        padding: 7px;
+      }
+      #task-list {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
+      #msg {
+        font-size: 1rem;
+        color: red;
+        font-style: italic;
+        visibility: hidden;
+      }
+
+      main {
+        display: flex;
+        flex-direction: column;
+        height: 100vh;
+        width: auto;
+        gap: 10px;
+      }
+      /* inputs's style  */
+      label {
+        font-size: 2rem;
+      }
+      #task {
+        padding: 10px;
+        border: 1px solid black;
+        border-radius: 10px;
+        width: 60%;
+        max-width: 400px;
+        text-align: center;
+        position: relative;
+        outline: none;
+      }
+      #task:focus {
+        outline: 1px solid violet;
+      }
+
+      /* button's style 
+ */
+      #add {
+        padding: 5px;
+        width: 70px;
+        border-radius: 10px;
+        border: 1px solid grey;
+        background-color: #b8b8ff;
+      }
+      #add:hover {
+        background-color: #7676ea;
+      }
+      #inp {
+        width: 100%;
+        height: 40%;
+        min-height: 150px;
+
+        display: grid;
+        place-items: center;
+        gap: 20px;
+      }
+      /* for headers style  */
+      .list-header {
+        font-size: 2rem;
+      }
+      #inp::before {
+        content: "Tasks:";
+        font-size: 1.2rem;
+        letter-spacing: 3px;
+      }
+      ol {
+        font-size: 1.2rem;
+
+        list-style-type: decimal;
+      }
+      .delete,
+      .done {
+        padding: 5px;
+        height: 25px;
+        width: 60px;
+        border-radius: 5px;
+        border: 1px solid black;
+      }
+      .done {
+        background-color: #8aff8a;
+      }
+      .delete {
+        background-color: #ff2e2e;
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <form id="inp">
+        <label for="task"></label>
+        <input
+          type="text"
+          name="task"
+          id="task"
+          placeholder="Enter your task"
+        />
+        <button type="submit" id="add">ADD</button>
+        <p id="msg">Tasks cannot be empty!!</p>
+      </form>
+      <hr />
+      <section id="list">
+        <header class="list-header">To Do Tasks:</header>
+        <ol id="task-list" type="1"></ol>
+      </section>
+    </main>
+
+    <script>
+      let inp = document.getElementById("inp");
+      let task = document.getElementById("task");
+      let list = document.getElementById("task-list");
+
+      let msg = document.getElementById("msg");
+      var i = 0;
+      inp.addEventListener("submit", (e) => {
+        e.preventDefault();
+        if (task.value.length !== 0) {
+          let li = document.createElement("li");
+          li.textContent = `Task no.${(i = i + 1)}- ` + task.value;
+          task.value = ""; //removing value from input for next task
+          list.appendChild(li);
+          msg.style.visibility = "hidden";
+          let done = document.createElement("button");
+          done.setAttribute("class", "done");
+          done.innerText = "Done";
+          li.appendChild(done);
+          let del = document.createElement("button");
+          del.setAttribute("class", "delete");
+          del.innerText = "Delete";
+          li.appendChild(del);
+        } else {
+          msg.style.visibility = "visible";
+        }
+      });
+
+      list.addEventListener("click", (e) => {
+        if (e.target.classList.contains("done")) {
+          e.target.closest("li").style.textDecoration = "line-through";
+          if (del) {
+            li.removeChild(e.target);
+          }
+        } else if (e.target.classList.contains("delete")) {
+          e.target.closest("li").remove();
+        }
+      });
+    </script>
+  </body>
+</html>
